@@ -1,7 +1,3 @@
-# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
-# More GitHub Actions for Azure: https://github.com/Azure/actions
-# More info on Python, GitHub Actions, and Azure App Service: https://aka.ms/python-webapps-actions
-
 name: Build and deploy Python app to Azure Web App - synth-speech-model
 
 on:
@@ -17,18 +13,22 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up Python version
-        uses: actions/setup-python@v1
+      - name: Set up Miniconda
+        uses: conda-incubator/setup-miniconda@v2
         with:
           python-version: '3.11'
+          environment-file: environment.yml  # Provide path to your conda environment file
 
-      - name: Create and start virtual environment
+      - name: Create and activate conda environment
         run: |
-          python -m venv venv
-          source venv/bin/activate
+          conda activate base  # Activate the base conda environment
+          conda env create -f environment.yml  # Replace with the actual name of your conda environment file
+          conda activate synth-speech-model-environment  # Replace with the actual name of your conda environment
 
       - name: Install dependencies
-        run: pip install -r requirements.txt
+        run: |
+          # If your dependencies are not specified in the conda environment file, you can install them here using pip
+          # pip install -r requirements.txt
 
       # Optional: Add step to run tests here (PyTest, Django test suites, etc.)
       - name: Zip artifact for deployment
