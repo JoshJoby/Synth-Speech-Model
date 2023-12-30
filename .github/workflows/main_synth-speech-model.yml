@@ -14,33 +14,30 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Set up Miniconda
-        uses: conda-incubator/setup-miniconda@v2
+        uses: conda-incubator/setup-miniconda@v3
         with:
+          auto-update-conda: true
           python-version: '3.11'
-          environment-file: environment.yml  # Provide path to your conda environment file
+          environment-file: environment.yml
 
       - name: Create and activate conda environment
         run: |
-          conda activate base  # Activate the base conda environment
-          conda env create -f environment.yml  # Replace with the actual name of your conda environment file
-          conda activate synth-speech-model-environment  # Replace with the actual name of your conda environment
+          conda env create -f environment.yml
+          conda activate synth-speech-model-environment
 
       - name: Install dependencies
         run: |
-          # If your dependencies are not specified in the conda environment file, you can install them here using pip
+          # Uncomment and customize if needed
           # pip install -r requirements.txt
 
-      # Optional: Add step to run tests here (PyTest, Django test suites, etc.)
       - name: Zip artifact for deployment
-        run: zip release.zip ./* -r
+        run: zip -r release.zip ./*
 
       - name: Upload artifact for deployment jobs
         uses: actions/upload-artifact@v3
         with:
           name: python-app
-          path: |
-            release.zip
-            !venv/
+          path: release.zip
 
   deploy:
     runs-on: ubuntu-latest
