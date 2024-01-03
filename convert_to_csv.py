@@ -9,8 +9,8 @@ import os
 import multiprocessing
 
 class Final_year():
-    def resample_if_necessary(audio, sr, target_sr):
-        if sr != target_sr:
+    def resample_if_necessary(self, audio, sr, target_sr):
+        if sr != target_sr: 
             audio = librosa.resample(audio, orig_sr=sr, target_sr=target_sr)
         return audio
 
@@ -97,11 +97,11 @@ class Final_year():
 
 
 # # Example usage:
-# if __name__ == '__main__':
-#     audio_files_fake = ["Super_Fast.mp3"]
-#     output_csv_file = "extracted_features_final.csv"
-#     SAMPLE_RATE = 16000
-#     final_year_instance = Final_year()
-#     final_year_instance.save_features_to_csv(audio_files_fake, output_csv_file, SAMPLE_RATE, num_cores=-1)
-#     print("Features extracted and saved to 'extracted_features_final.csv'")
-#     final_year_instance.test_csv()
+if __name__ == '__main__':
+    audio_files_fake = ["Super_Fast.mp3"]
+    output_csv_file = "extracted_features_final.csv"
+    SAMPLE_RATE = 16000
+    final_year_instance = Final_year()
+    final_year_instance.save_features_to_csv(audio_files_fake, output_csv_file, SAMPLE_RATE, num_cores=-1)
+    print("Features extracted and saved to 'extracted_features_final.csv'")
+    # final_year_instance.test_csv()
