@@ -13,27 +13,34 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
     env:
-      DOCKER_BUILDKIT: 1
-      DOCKER_BUILDKIT_CACHE: 1
-
+      DOCKER_BUILDKIT: 1  # Enable BuildKit for potential efficiency improvements
+      DOCKER_BUILDKIT_CACHE: 1  # Cache layers if applicable
     steps:
       - uses: actions/checkout@v4
-
+      - name: Prune Docker Images (Optional)
+        run: |
+          docker image prune -f
       - name: Login to Docker Hub
         uses: docker/login-action@v1
         with:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
-
+      - name: Prune Docker System (Optional)
+        run: |
+          docker system prune -f
       - name: Build and push to Docker Hub
         uses: docker/build-push-action@v2
         with:
-          context: .
+          context: .  # Build context remains the same
           push: true
-          tags: jobyjosh21/synthspeechmodel:latest, jobyjosh21/synthspeechmodel:${{ github.run_number }}
-          pull: true  # Ensure only necessary layers are pushed
+          tags: jobyjosh21/synthspeechmodel:latest, jobyjosh21/synthspeechmodel:${{ github.run_number }}  # Run number tag
+          pull: true  # Ensure only necessary layers are pulled
+          # Additional options for potential space optimization (see previous comment)
+
+
+
+
 
 
   # deploy:
