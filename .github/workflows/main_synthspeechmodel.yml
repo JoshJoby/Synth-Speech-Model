@@ -14,6 +14,10 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    env:
+      DOCKER_BUILDKIT: 1
+      DOCKER_BUILDKIT_CACHE: 1
+
     steps:
       - uses: actions/checkout@v4
 
@@ -22,12 +26,15 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+
       - name: Build and push to Docker Hub
         uses: docker/build-push-action@v2
         with:
           context: .
           push: true
           tags: jobyjosh21/synthspeechmodel:latest, jobyjosh21/synthspeechmodel:${{ github.run_number }}
+          pull: true  # Ensure only necessary layers are pushed
+
 
   # deploy:
   #   runs-on: ubuntu-latest
