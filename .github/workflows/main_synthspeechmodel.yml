@@ -29,6 +29,8 @@ jobs:
       - name: Prune Docker System (Optional)
         run: |
           docker system prune -f
+          sudo rm -rf /usr/share/dotnet
+          sudo rm -rf "$AGENT_TOOLSDIRECTORY"
       - name: Build and push to Docker Hub
         uses: docker/build-push-action@v2
         with:
