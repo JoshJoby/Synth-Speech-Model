@@ -18,6 +18,11 @@ jobs:
       DOCKER_BUILDKIT_CACHE: 1  # Cache layers if applicable
     steps:
       - uses: actions/checkout@v4
+        with:
+          lfs: true  # Download LFS objects during checkout
+      - name: Download large file from Git LFS
+        run: |
+          git lfs download trained_random_forest_model_1000.pkl
       - name: Prune Docker Images (Optional)
         run: |
           docker image prune -f
@@ -38,12 +43,7 @@ jobs:
           push: true
           tags: jobyjosh21/synthspeechmodel:latest, jobyjosh21/synthspeechmodel:${{ github.run_number }}  # Run number tag
           pull: true  # Ensure only necessary layers are pulled
-          # Additional options for potential space optimization (see previous comment)
-
-
-
-
-
+          
 
   # deploy:
   #   runs-on: ubuntu-latest
