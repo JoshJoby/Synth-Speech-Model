@@ -17,4 +17,4 @@ ENV AZ_STORAGE_BLOB_NAME trained_random_forest_model_1000.pkl
 ENV AZ_STORAGE_FILE_PATH /app/trained_random_forest_model_1000.pkl
 
 # Modify CMD to check if the file exists, if not, download it
-CMD [ "sh", "-c", "if [ ! -f $AZ_STORAGE_FILE_PATH ]; then sudo az storage blob download --account-name $AZ_STORAGE_ACCOUNT_NAME --account-key $AZ_STORAGE_ACCOUNT_KEY --container-name $AZ_STORAGE_CONTAINER_NAME --name $AZ_STORAGE_BLOB_NAME --file $AZ_STORAGE_FILE_PATH; fi; python app.py" ]
+CMD [ "sh", "-c", "if [ ! -f $AZ_STORAGE_FILE_PATH ]; then az storage blob download --account-name $AZ_STORAGE_ACCOUNT_NAME --account-key $AZ_STORAGE_ACCOUNT_KEY --container-name $AZ_STORAGE_CONTAINER_NAME --name $AZ_STORAGE_BLOB_NAME --file $AZ_STORAGE_FILE_PATH; fi; python app.py" ]
