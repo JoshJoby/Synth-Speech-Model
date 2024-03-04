@@ -6,12 +6,15 @@ WORKDIR /app
 # Copy the current directory contents into the container at /app
 COPY . /app
 
-
-
 # Install Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-EXPOSE 80
+# Set up environment variables for Azure Storage account
+ENV AZ_STORAGE_ACCOUNT_NAME synthspeechmodel
+ENV AZ_STORAGE_ACCOUNT_KEY 2tYMclaD8PFFEckTUc5XVImKiECT454DaS7pqqHmj9eTU0vIOxuuXsBSy5Y0jnIB4F5t2/eW+WP++AStJM5/Dw==
+ENV AZ_STORAGE_CONTAINER_NAME synthspeechmodel
+ENV AZ_STORAGE_BLOB_NAME trained_random_forest_model_1000.pkl
+ENV AZ_STORAGE_FILE_PATH /app/trained_random_forest_model_1000.pkl
 
-# Modify CMD to directly activate the Conda environment and run your application
-CMD [ "python", "app.py"]
+# Modify CMD to check if the file exists, if not, download it
+CMD [ "sh", "-c", "if [ ! -f $AZ_STORAGE_FILE_PATH ]; then sudo az storage blob download --account-name $AZ_STORAGE_ACCOUNT_NAME --account-key $AZ_STORAGE_ACCOUNT_KEY --container-name $AZ_STORAGE_CONTAINER_NAME --name $AZ_STORAGE_BLOB_NAME --file $AZ_STORAGE_FILE_PATH; fi; python app.py" ]
