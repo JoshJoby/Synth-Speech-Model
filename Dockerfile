@@ -20,6 +20,9 @@ ENV AZ_STORAGE_ACCOUNT_KEY=2tYMclaD8PFFEckTUc5XVImKiECT454DaS7pqqHmj9eTU0vIOxuuX
 ENV AZ_STORAGE_CONTAINER_NAME=synthspeechmodel
 ENV AZ_STORAGE_BLOB_NAME=trained_random_forest_model_1000.pkl
 ENV AZ_STORAGE_FILE_PATH=/app/trained_random_forest_model_1000.pkl
+ENV LD_LIBRARY_PATH=/usr/local/cuda/lib64:$LD_LIBRARY_PATH
+ENV CUDA_PATH=/usr/local/cuda
+
 
 # Modify CMD to check if the file exists, if not, download it
 CMD [ "sh", "-c", "if [ ! -f $AZ_STORAGE_FILE_PATH ]; then az storage blob download --account-name $AZ_STORAGE_ACCOUNT_NAME --account-key $AZ_STORAGE_ACCOUNT_KEY --container-name $AZ_STORAGE_CONTAINER_NAME --name $AZ_STORAGE_BLOB_NAME --file $AZ_STORAGE_FILE_PATH; fi; python app.py" ]
