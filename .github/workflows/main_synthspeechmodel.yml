@@ -28,7 +28,7 @@ jobs:
             az --version
       - name: Download large file from Azure Blob Storage
         run: |
-          az storage blob download --account-name synthspeechmodel --account-key 2tYMclaD8PFFEckTUc5XVImKiECT454DaS7pqqHmj9eTU0vIOxuuXsBSy5Y0jnIB4F5t2/eW+WP++AStJM5/Dw== --container-name synthspeechmodel --name trained_random_forest_model_1000.pkl --file trained_random_forest_model_1000.pkl --output .
+          sudo az storage blob download --account-name synthspeechmodel --account-key 2tYMclaD8PFFEckTUc5XVImKiECT454DaS7pqqHmj9eTU0vIOxuuXsBSy5Y0jnIB4F5t2/eW+WP++AStJM5/Dw== --container-name synthspeechmodel --name trained_random_forest_model_1000.pkl --file trained_random_forest_model_1000.pkl --output .
       - name: Prune Docker Images (Optional)
         run: |
           docker image prune -f
