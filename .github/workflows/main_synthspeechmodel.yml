@@ -40,7 +40,7 @@ jobs:
         with:
           context: .  # Build context remains the same
           push: true
-          tags: jobyjosh2211/synthspeechmodel:latest, jobyjosh2211/synthspeechmodel:${{ github.run_number }}  # Run number tag
+          tags: jobyjosh21/synthspeechmodel:latest, jobyjosh21/synthspeechmodel:${{ github.run_number }}  # Run number tag
           pull: true  # Ensure only necessary layers are pulled
 
   # deploy:
