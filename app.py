@@ -4,7 +4,7 @@ import pandas as pd
 from tqdm import tqdm
 from flask import Flask, request, jsonify
 import joblib
- 
+import traceback
 def resample_if_necessary(audio, sr, target_sr):
     if sr != target_sr:
         audio = librosa.resample(audio, sr, target_sr)
@@ -58,10 +58,11 @@ def predict():
 
         # Make predictions
         predictions = model.predict(features)
-
+        print(predictions.tolist())
         # Return predictions as JSON
         return jsonify({"predictions": predictions.tolist()})
     except Exception as e:
+        print(traceback.format_exc())
         return jsonify({"error": str(e)})
 
 # Run the app if this script is the main entry point
