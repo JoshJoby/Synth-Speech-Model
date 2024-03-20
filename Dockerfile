@@ -1,5 +1,5 @@
-FROM rapidsai/rapidsai:23.06-cuda11.8-runtime-ubuntu22.04-py3.10
-
+# FROM rapidsai/rapidsai:23.06-cuda11.8-runtime-ubuntu22.04-py3.10
+FROM python:3.10-slim
 # Set the working directory
 WORKDIR /app
 
