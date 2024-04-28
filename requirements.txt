@@ -5,4 +5,5 @@ tqdm
 joblib
 scikit-learn
 flask
+flask_cors
 
