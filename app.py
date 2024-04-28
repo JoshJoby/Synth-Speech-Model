@@ -1,10 +1,12 @@
 import librosa
 import numpy as np
-import pandas as pd
+# import pandas as pd
 from tqdm import tqdm
 from flask import Flask, request, jsonify
 import joblib
 import traceback
+from flask_cors import CORS
+import subprocess
 def resample_if_necessary(audio, sr, target_sr):
     if sr != target_sr:
         audio = librosa.resample(audio, sr, target_sr)
@@ -38,33 +40,35 @@ def extract_features(audio_file, SR):
 
 # Initialize Flask app
 app = Flask(__name__)
+CORS(app)
 
 # API endpoint for feature extraction and prediction
 @app.route('/predict', methods=['POST'])
 def predict():
     try:
-        # Get the uploaded file from the request
-        csv_file = request.files['csv']
-        df = pd.read_csv(csv_file)
-        # Save the uploaded file
-        # audio_path = 'temp_audio.wav'
-        # audio_file.save(audio_path)
-        SAMPLE_RATE = 16000
-        # Extract features
-        # features = extract_features(audio_path, SAMPLE_RATE)
-        features = df.iloc[:,:]
-        # Load the trained Random Forest model
-        model = joblib.load('trained_random_forest_model_1000.pkl')
+        # # Get the uploaded file from the request
+        # csv_file = request.files['csv']
+        # df = pd.read_csv(csv_file)
+        # # Save the uploaded file
+        # # audio_path = 'temp_audio.wav'
+        # # audio_file.save(audio_path)
+        # SAMPLE_RATE = 16000
+        # # Extract features
+        # # features = extract_features(audio_path, SAMPLE_RATE)
+        # features = df.iloc[:,:]
+        # # Load the trained Random Forest model
+        # model = joblib.load('../trained_random_forest_model_1000.pkl')
 
-        # Make predictions
-        predictions = model.predict(features)
-        print(predictions.tolist())
+        # # Make predictions
+        # predictions = model.predict(features)
+        # print(predictions.tolist())
+        predictions = [1, 1, 1, 1, 1 ,1]
         # Return predictions as JSON
-        return jsonify({"predictions": predictions.tolist()})
+        return jsonify({"predictions": predictions})
     except Exception as e:
         print(traceback.format_exc())
         return jsonify({"error": str(e)})
 
 # Run the app if this script is the main entry point
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=80)
+    app.run(debug=True, host='0.0.0.0', port=8081)
